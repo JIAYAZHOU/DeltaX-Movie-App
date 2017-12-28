@@ -1,0 +1,541 @@
+﻿
+@{
+    Layout = null;
+    var id = @Session["ID"];
+}
+
+
+
+<style>
+    body {
+        background-color: silver;
+        background-image: radial-gradient(circle at 100% 150%, silver 24%, white 25%, white 28%, silver 29%, silver 36%, white 36%, white 40%, transparent 40%, transparent), radial-gradient(circle at 0 150%, silver 24%, white 25%, white 28%, silver 29%, silver 36%, white 36%, white 40%, transparent 40%, transparent), radial-gradient(circle at 50% 100%, white 10%, silver 11%, silver 23%, white 24%, white 30%, silver 31%, silver 43%, white 44%, white 50%, silver 51%, silver 63%, white 64%, white 71%, transparent 71%, transparent), radial-gradient(circle at 100% 50%, white 5%, silver 6%, silver 15%, white 16%, white 20%, silver 21%, silver 30%, white 31%, white 35%, silver 36%, silver 45%, white 46%, white 49%, transparent 50%, transparent), radial-gradient(circle at 0 50%, white 5%, silver 6%, silver 15%, white 16%, white 20%, silver 21%, silver 30%, white 31%, white 35%, silver 36%, silver 45%, white 46%, white 49%, transparent 50%, transparent);
+        background-size: 100px 50px;
+    }
+
+   #star {
+            background: transparent;
+            border: none !important;
+            color: yellow;
+        }
+
+            #star:active {
+                color:deeppink;
+            }
+
+            #star:focus {
+                color:deeppink;
+            }
+</style>
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet">
+<link href="~/Content/shop-homepage.css" rel="stylesheet">
+
+
+
+<script>
+    $('#heart').click(function () {
+        //$(this).css('color', '#B40404');
+
+        $(this).toggleClass('active');
+        //if (!$(this).hasClass('red'))
+        //    $(this).addClass('red');
+        //if ($(this).hasClass('red')) {
+        //    $(this).removeClass('red');
+        //    //$(this).addClass('pink');
+        //}
+
+    })
+</script>
+
+
+
+<body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @*@Html.ActionLink("Movie", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li style="font-size:large">@Html.ActionLink("Home", "Index", "Home")</li>
+
+
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-size:large">
+                            Add
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" style="background-color:azure">
+                            <li>@Html.ActionLink("Add an Actor", "Create", "Actors")</li>
+                            <li>@Html.ActionLink("Add a Producer", "Create", "Producers")</li>
+                            <li>@Html.ActionLink("Add a Film", "Create", "Films")</li>
+                        </ul>
+                    </li>
+
+
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-size:large">
+                            Listing
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" style="background-color:azure">
+                            <li>@Html.ActionLink("View a List Of Actors", "Index", "Actors")</li>
+                            <li>@Html.ActionLink("View a List Of Producers", "Index", "Producers")</li>
+                            <li>@Html.ActionLink("View a List Of Movies", "Index", "Films")</li>
+                        </ul>
+                    </li>
+                    <li style="font-size:large">@Html.ActionLink("Realtime", "Realtime", "Home")</li>
+
+
+                    @*<li style="font-size:large">@Html.ActionLink("Add", "Add", "Home")</li>*@
+                    @*<li style="font-size:large">@Html.ActionLink("Listing", "Listing", "Home")</li>*@
+                    <li style="font-size:large">@Html.ActionLink("About", "About", "Home")</li>
+                    <li style="font-size:large">@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+
+            </div>
+        </div>
+    </div>
+    <style>
+        
+
+
+
+        #det {
+            background: transparent;
+            border: none !important;
+            color: black;
+        }
+
+        #addreal1 {
+            background: transparent;
+            border: none !important;
+            color: black;
+        }
+    </style>
+    <div style="position:absolute;left:40%;top:30%">
+        <input type="text" id="search" />
+        <button class="search">SEARCH</button>
+
+    </div>
+    <div id="idd" style="position:absolute;top:50%; padding:30px">
+        @*<table id="table1" style="border:1px"></table>*@
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:aquamarine">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Movie Details</h4>
+                </div>
+                <div class="modal-body" style="background-color:AZURE">
+
+
+
+
+
+
+
+
+                    <div id="det"></div>
+
+
+
+
+
+
+
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Okay</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+</body>
+
+
+
+<script>
+    var ID1 = 1;
+    var ID2 = 2;
+    var ID3 = 3;
+    var ID4 = 4;
+</script>
+<script>
+
+    $('.dropdown').hover(function () {
+        $('.dropdown-toggle', this).trigger('click');
+    });
+
+
+    $("#search").keyup(function (event) {
+        if (event.keyCode == 13) {
+            $(".search").click();
+        }
+    });
+
+    $(document).ready(function () {
+
+
+        // var r = $('<input type="button" value=&#10084; style="background:transparent;border:none !important; color:red"/>');
+
+
+        $('.search').click(function(){
+            var searchitem = document.getElementById("search").value;
+
+            searchitem = encodeURIComponent(searchitem);
+            // alert(searchitem);
+            //debugger;
+            //location.reload();
+
+            $('#idd').empty();
+            $.ajax({
+
+                url: "http://www.omdbapi.com/?s=" + searchitem + "&y=&plot=full&r=json",
+                type: "GET",
+                success: function (data) {
+
+                    if (data["Search"] != null) {
+
+                        var Div1 = document.createElement('div');
+                        Div1.className = "row";
+                        $.each(data["Search"], function (movie)
+                        {
+
+                            var Div2 = document.createElement('div');
+                            var Div3 = document.createElement('div');
+                            var Div4 = document.createElement('div');
+                            var Div5 = document.createElement('div');
+                            //var button = document.getElementById("heart");
+
+
+
+                            Div2.className = "col-sm-4 col-lg-4 col-md-4";
+                            Div3.className = "thumbnail";
+                            Div4.className = "caption";
+                            Div5.className = "ratings";
+
+                            Div1.appendChild(Div2);
+                            Div2.appendChild(Div3);
+                            Div3.appendChild(Div4);
+                            Div4.appendChild(Div5);
+
+                            $('#idd').append(Div1);
+
+
+                            Div2.id = ID1;
+                            Div3.id = ID2;
+                            Div4.id = ID3;
+                            Div5.id = ID4;
+
+                            ID1 += 4;
+                            ID2 += 4;
+                            ID3 += 4;
+                            ID4 += 4;
+
+
+                            var button1 = document.createElement('button');
+                            button1.innerHTML = ' &#9733;';
+                            button1.id = "star";
+                            button1.onclick = function () {
+                                addwish(data.Search[movie].imdbID);
+                                //alert("Added to Favourites"+ data.Search[movie].imdbID);
+                                return false;
+                            };
+
+                            //debugger;
+                            $('#' + Div4.id).append(data.Search[movie].Title);
+
+                            $('#' + Div4.id).append(button1);
+
+
+                            var img = "<img src=" + data.Search[movie].Poster + " height=" + 100 + "!important" + " width=" + 100 + "!important" + "/>";
+                            $('#' + Div3.id).append(img);
+                            $('#' + Div3.id).append("Year of Release: "+data.Search[movie].Year+"<br/>");
+                            //$('#' + Div3.id).append("ID: " + data.Search[movie].imdbID + "<br/>");
+
+
+
+                            var button2 = document.createElement('button');
+                            button2.innerHTML = 'Details';
+                            // button2.innerHTML = "data-toggle=\"modal\" data-target=\"#myModal\"";
+                           // button2.setAttribute("data-toggle", "modal");
+                           // button2.setAttribute("data-target", "#myModal");
+                            button2.id = "det";
+                            button2.onclick = function ()
+                            {
+
+                                details(data.Search[movie].imdbID);
+                                //alert('Need to redirect to details');
+                                return false;
+                            };
+                            $('#' + Div3.id).append(button2);
+
+
+                                var button3 = document.createElement('button');
+                                button3.innerHTML = 'Add Movie';
+                                // button2.innerHTML = "data-toggle=\"modal\" data-target=\"#myModal\"";
+                                //button3.setAttribute("data-toggle", "modal");
+                                // button3.setAttribute("data-target", "#myModal");
+                                button3.id = "addreal1";
+                                button3.onclick = function () {
+
+                                    Add(data.Search[movie].imdbID);
+                                    //alert('Need to redirect to details');
+                                    return false;
+                                };
+                                $('#' + Div3.id).append(button3);
+                            
+
+
+
+                            //var linkText = document.createTextNode("Details");
+                            //a.appendChild(linkText);
+                            //a.id = "details";
+                            //a.onclick = details(data.Search[movie].imdbID);
+
+
+                            //  "http://www.omdbapi.com/?i=" + data.Search[movie].imdbID + "&plot=short&r=json"
+
+
+
+
+
+
+
+
+
+                        }
+
+
+                     );
+                    }
+                    else {
+                        $('#idd').append("No Results to Display! Try Again with a different spelling maybe.");
+                    }
+                }
+            })
+        })
+    })
+
+
+    function Add(data)
+    {
+      
+        //alert("hi");
+        $.ajax(
+           {
+               url: "http://www.omdbapi.com/?i=" + data + "&plot=short&r=json",
+               type: "GET",
+               // datatype: "html",
+               // data: { "id": id },
+
+
+
+               success: function (data){
+                   n = confirm(("Add this movie? \n" + data.Title + "\n" + data.Plot + "\n" + data.Year + "\n" +data.Actors));
+                   if (n)
+                   {
+                       var MovieData = {
+                           "Name": data.Title,
+                           "Plot": data.Plot,
+                           "Year_Of_Release": data.Year,
+                           "ProducerID":data.Director,
+                           "Poster": data.Poster,
+                           "Actors": data.Actors
+
+                       };
+                       addd(MovieData);
+                   }
+               }
+           });
+    }
+
+    function addd(data)
+    {
+
+        var dat = data;
+        //var ActorData = {
+        //    "Name": "ram",
+        //    "Sex": "Female",
+        //    "DOB": "5/3/2018",
+        //    "Bio": "KDJBKJ"
+
+        // };
+        data.Plot=data.Plot.substring(0, 90);
+       // alert(data.Plot);
+        var film = {
+            "MovieID":0,
+            "Name": data.Name,
+            "Plot": data.Plot,
+            "Year_Of_Release": data.Year_Of_Release,
+            "Poster": null
+            //"ProducerID":data.Director
+            //"Actors":data.Actors
+           
+        };
+        var file = null;
+       // alert(data.Director);
+        $.ajax({
+          
+            // url: "/Actors/ACreatee",
+            url: "/Films/Create",
+
+            type: "POST",
+            datatype: "JSON",
+
+            data: {film : film, post : file,Actors: data.Actors,Producer:data.ProducerID,Realtime:1},
+            success: function (response) {
+                if (response != null && response.success) {
+                    alert("Successfully added the movie!!");
+                } else {
+                    alert("You've already added this movie!");
+                }
+            },
+            failure: function (data) {
+                alert("Unable to add movie");
+
+            }
+        })
+    }
+    function details(data)
+    {
+        // alert(data);
+        $.ajax(
+           {
+               url: "http://www.omdbapi.com/?i=" + data + "&plot=short&r=json",
+               type: "GET",
+               // datatype: "html",
+               // data: { "id": id },
+               success: function (data)
+               {
+                   alert("Movie Title: " + data.Title + "\nYear: " + data.Year + "\n" + "Movie Runtime: " + data.Runtime + "\nGenre: " + data.Genre + "\n" + "Movie Director: " + data.Director +"\nActors: "+data.Actors+ "\nPlot: " + data.Plot + "\n" + "IMDB Rating: " + data.imdbRating);
+
+
+                   //Actors
+                   //Released
+                   //Runtime
+                   //Genre
+                   //Writer
+                   //Director
+                   //Plot
+                   //Awards
+                   //Country
+                   //imdbRating
+                   //imdbVotes
+
+
+
+
+
+                   var d = document.getElementById("det");
+                   //alert(d);
+
+                   // $("#det").html(data);
+                   if (data["Search"] != null)
+                   {
+                       //d.textContent = 'Hello world.';
+                       $('#' + d).append("Title: " + data.Title + "<br/>");
+                       $('#' + d).append("Year: " + data.Plot + "<br/>");
+                       $('#' + d).append("Runtime: " + data.Runtime + "<br/>");
+                       $('#' + d).append("Genre: " + data.Genre + "<br/>");
+                       $('#' + d).append("Year: " + data.Year + "<br/>");
+                       $('#' + d).append("Runtime: " + data.Runtime + "<br/>");
+                       $('#' + d).append("Director: " + data.Director + "<br/>");
+                       $('#' + d).append("Plot: " + data.Plot + "<br/>");
+                       $('#' + d).append("IMDB Rating: " + data.imdbRating + "<br/>");
+                   }
+               },
+
+
+               error: function (data)
+               {
+                   alert("error");
+               }
+           })
+        //alert("http://www.omdbapi.com/?i=" + data + "&plot=short&r=json");
+    }
+ 
+    function addwish(data)
+    {
+
+
+
+        if(@Session["ID"]!=null)
+        {
+            var dat = {
+                "Id": @Session["ID"],
+                "MovieID": null,
+                "ImdbID":data
+            };
+
+        
+        $.ajax({
+            // url: "/Actors/ACreatee",
+            url: "/Favourites/Create",
+
+            type: "POST",
+            datatype: "JSON",
+            data: dat,
+            success: function (response) {
+                if (response != null && response.success) {
+                    alert("Successfully added movie to Watchlist!!");
+                } else {
+                    alert("You've already added this movie to your Watchlist!");
+                } 
+            },
+            failure: function (data) {
+                alert("Unable to add to Watchlist");
+
+            }
+        })
+            //alert("http://www.omdbapi.com/?i=" + data + "&plot=short&r=json");
+    }
+    else
+    {
+            alert("Kindly Login to set Watchlist!");
+    }
+
+
+
+     
+}
+
+
+</script>

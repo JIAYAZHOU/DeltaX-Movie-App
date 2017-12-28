@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MovieModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Actor">
+    <Key>
+      <PropertyRef Name="ActorID" />
+    </Key>
+    <Property Name="ActorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Sex" Type="String" MaxLength="7" FixedLength="false" Unicode="false" />
+    <Property Name="DOB" Type="DateTime" Precision="0" />
+    <Property Name="Bio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Movies" Relationship="Self.ActIn" FromRole="Actor" ToRole="Movie" />
+  </EntityType>
+  <EntityType Name="Movie">
+    <Key>
+      <PropertyRef Name="MovieID" />
+    </Key>
+    <Property Name="MovieID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Year_Of_Release" Type="Int32" />
+    <Property Name="Plot" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ProducerID" Type="Int32" />
+    <NavigationProperty Name="Producer" Relationship="Self.FK__Movie__ProducerI__145C0A3F" FromRole="Movie" ToRole="Producer" />
+    <NavigationProperty Name="Actors" Relationship="Self.ActIn" FromRole="Movie" ToRole="Actor" />
+  </EntityType>
+  <EntityType Name="Producer">
+    <Key>
+      <PropertyRef Name="ProducerID" />
+    </Key>
+    <Property Name="ProducerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Sex" Type="String" MaxLength="7" FixedLength="false" Unicode="false" />
+    <Property Name="DOB" Type="DateTime" Precision="0" />
+    <Property Name="Bio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Movies" Relationship="Self.FK__Movie__ProducerI__145C0A3F" FromRole="Producer" ToRole="Movie" />
+  </EntityType>
+  <Association Name="FK__Movie__ProducerI__145C0A3F">
+    <End Role="Producer" Type="Self.Producer" Multiplicity="0..1" />
+    <End Role="Movie" Type="Self.Movie" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Producer">
+        <PropertyRef Name="ProducerID" />
+      </Principal>
+      <Dependent Role="Movie">
+        <PropertyRef Name="ProducerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ActIn">
+    <End Role="Actor" Type="Self.Actor" Multiplicity="*" />
+    <End Role="Movie" Type="Self.Movie" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="MovieEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Actors" EntityType="Self.Actor" />
+    <EntitySet Name="Movies" EntityType="Self.Movie" />
+    <EntitySet Name="Producers" EntityType="Self.Producer" />
+    <AssociationSet Name="FK__Movie__ProducerI__145C0A3F" Association="Self.FK__Movie__ProducerI__145C0A3F">
+      <End Role="Producer" EntitySet="Producers" />
+      <End Role="Movie" EntitySet="Movies" />
+    </AssociationSet>
+    <AssociationSet Name="ActIn" Association="Self.ActIn">
+      <End Role="Actor" EntitySet="Actors" />
+      <End Role="Movie" EntitySet="Movies" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

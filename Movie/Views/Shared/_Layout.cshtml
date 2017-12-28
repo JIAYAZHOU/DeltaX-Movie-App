@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap-multiselect.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet">
+    <script>
+        $('.dropdown').hover(function () {
+            $('.dropdown-toggle', this).trigger('click');
+        });
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Movies</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+   
+   
+   
+
+    @*<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap-multiselect.js"></script>*@
+
+
+    <style>
+        body {
+            background-color: aquamarine;
+        }
+    </style>
+
+
+
+
+</head>
+<body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @*@Html.ActionLink("Movie", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li style="font-size:large">@Html.ActionLink("Home", "Index", "Home")</li>
+
+
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-size:large">
+                            Add
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" style="background-color:azure">
+                            <li >@Html.ActionLink("Add an Actor", "Create", "Actors")</li>
+                            <li>@Html.ActionLink("Add a Producer", "Create", "Producers")</li>
+                            <li>@Html.ActionLink("Add a Film", "Create", "Films")</li>
+                       </ul>
+                    </li>
+
+
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-size:large">
+                           Listing
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" style="background-color:azure">
+                            <li>@Html.ActionLink("View a List Of Actors", "Index", "Actors")</li>
+                            <li>@Html.ActionLink("View a List Of Producers", "Index", "Producers")</li>
+                            <li>@Html.ActionLink("View a List Of Movies", "Index", "Films")</li>
+                        </ul>
+                    </li>
+                    <li style="font-size:large">@Html.ActionLink("Realtime", "Realtime", "Home")</li>
+
+                    @*<li style="font-size:large">@Html.ActionLink("Add", "Add", "Home")</li>*@
+                    @*<li style="font-size:large">@Html.ActionLink("Listing", "Listing", "Home")</li>*@
+                    <li style="font-size:large">@Html.ActionLink("About", "About", "Home")</li>
+                    <li style="font-size:large">@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+                              
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My Movie Application</p>
+        </footer>
+    </div>
+
+    @*@Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")*@
+    @RenderSection("scripts", required:false)
+</body>
+</html>

@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MovieModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Accounts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmailID" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IsAdmin" Type="int" />
+  </EntityType>
+  <EntityType Name="Favourites">
+    <Key>
+      <PropertyRef Name="IDD" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="ImdbID" Type="varchar" MaxLength="50" />
+    <Property Name="MovieID" Type="int" />
+    <Property Name="IDD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Favourites__Id__756D6ECB">
+    <End Role="Accounts" Type="Self.Accounts" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Favourites" Type="Self.Favourites" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Favourites">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MovieModel1StoreContainer">
+    <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Favourites" EntityType="Self.Favourites" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Favourites__Id__756D6ECB" Association="Self.FK__Favourites__Id__756D6ECB">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="Favourites" EntitySet="Favourites" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

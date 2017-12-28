@@ -1,0 +1,35 @@
+﻿@model Movie.Models.Producer
+@{
+    ViewBag.Title = "old";
+
+    var i = -1;
+    foreach (var item in ViewBag.Pist)
+    {
+        if(@item.ProducerID >i)
+        {
+            i = @item.ProducerID;
+        }
+    }
+    }
+
+<br />
+<div class="form-group" >
+    @*absolute; right: 495px; bottom: 160px;*@
+
+    <div class="col-md-10">
+        <select name="ProducerID" value="ProducerID"
+                style="border-radius: 5px;
+   background: white;
+   width: 275px;
+   padding: 5px;
+   font-size: 16px;
+   border: 20px;
+   height: 34px;">
+            @foreach (var item in ViewBag.Pist)
+            {
+                <option id=@item.ProducerID value="@item.ProducerID" selected="i">@item.Name</option>
+            }
+        </select>
+    </div>
+    </div>
+

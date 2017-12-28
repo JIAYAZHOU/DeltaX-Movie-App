@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MovieModel1StoreContainer" CdmEntityContainer="MovieEntities">
+    <EntitySetMapping Name="Accounts">
+      <EntityTypeMapping TypeName="MovieModel1.Account">
+        <MappingFragment StoreEntitySet="Accounts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Favourites">
+      <EntityTypeMapping TypeName="MovieModel1.Favourite">
+        <MappingFragment StoreEntitySet="Favourites">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ImdbID" ColumnName="ImdbID" />
+          <ScalarProperty Name="MovieID" ColumnName="MovieID" />
+          <ScalarProperty Name="IDD" ColumnName="IDD" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

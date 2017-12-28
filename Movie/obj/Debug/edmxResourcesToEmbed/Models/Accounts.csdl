@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MovieModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmailID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="IsAdmin" Type="Int32" />
+    <NavigationProperty Name="Favourites" Relationship="Self.FK__Favourites__Id__756D6ECB" FromRole="Accounts" ToRole="Favourites" />
+  </EntityType>
+  <EntityType Name="Favourite">
+    <Key>
+      <PropertyRef Name="IDD" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="ImdbID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="MovieID" Type="Int32" />
+    <Property Name="IDD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Account" Relationship="Self.FK__Favourites__Id__756D6ECB" FromRole="Favourites" ToRole="Accounts" />
+  </EntityType>
+  <Association Name="FK__Favourites__Id__756D6ECB">
+    <End Role="Accounts" Type="Self.Account" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Favourites" Type="Self.Favourite" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Favourites">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MovieEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Accounts" EntityType="Self.Account" />
+    <EntitySet Name="Favourites" EntityType="Self.Favourite" />
+    <AssociationSet Name="FK__Favourites__Id__756D6ECB" Association="Self.FK__Favourites__Id__756D6ECB">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="Favourites" EntitySet="Favourites" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

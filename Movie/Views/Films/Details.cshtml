@@ -1,0 +1,95 @@
+﻿@model Movie.Models.Film
+
+@{
+    ViewBag.Title = "Details";
+    string po = ViewBag.ImageToShow;
+    Layout = null;
+}
+
+<style>
+
+    #pic{
+        height:100px;
+        width:100px;
+    }
+
+</style>
+
+
+
+
+
+
+
+
+
+@*<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">
+</script>*@
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+
+
+
+
+
+
+@*<h2>Details</h2>*@
+
+<div>
+    @*<h4>Film</h4>
+    <hr />*@
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        @if (ViewBag.ImageToShow != null)
+        {
+        <dt>
+            @Html.DisplayNameFor(model => model.Poster)
+        </dt>
+
+        <dd>
+            @*@Html.DisplayFor(model => model.Name)*@
+
+
+            @Html.Raw("<img id=\"pic\" src=\"data:image/jpeg;base64," + ViewBag.ImageToShow + "\" />")
+            @*<img id="pic"  src="~@po" alt="NO IMAGE" />*@
+
+
+        </dd>
+        }
+        <dt>
+            @Html.DisplayNameFor(model => model.Plot)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Plot)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Year_Of_Release)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Year_Of_Release)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProducerID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Producer.Name)
+        </dd>
+
+    </dl>
+</div>
+@*<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MovieID }) @*|
+    @Html.ActionLink("Okay", "Index")
+</p>*@

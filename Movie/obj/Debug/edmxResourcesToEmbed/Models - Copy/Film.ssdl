@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MovieModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Film">
+    <Key>
+      <PropertyRef Name="MovieID" />
+    </Key>
+    <Property Name="MovieID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Year_Of_Release" Type="int" />
+    <Property Name="Plot" Type="varchar" MaxLength="100" />
+    <Property Name="ProducerID" Type="int" />
+  </EntityType>
+  <EntityContainer Name="MovieModel1StoreContainer">
+    <EntitySet Name="Film" EntityType="Self.Film" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

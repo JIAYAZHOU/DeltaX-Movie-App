@@ -1,0 +1,129 @@
+﻿@model Movie.Models.Producer
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+
+
+
+<style>
+
+    body{
+
+        background-color:silver;
+background-image: 
+radial-gradient(circle at 100% 150%, silver 24%, white 25%, white 28%, silver 29%, silver 36%, white 36%, white 40%, transparent 40%, transparent),
+radial-gradient(circle at 0    150%, silver 24%, white 25%, white 28%, silver 29%, silver 36%, white 36%, white 40%, transparent 40%, transparent),
+radial-gradient(circle at 50%  100%, white 10%, silver 11%, silver 23%, white 24%, white 30%, silver 31%, silver 43%, white 44%, white 50%, silver 51%, silver 63%, white 64%, white 71%, transparent 71%, transparent),
+radial-gradient(circle at 100% 50%, white 5%, silver 6%, silver 15%, white 16%, white 20%, silver 21%, silver 30%, white 31%, white 35%, silver 36%, silver 45%, white 46%, white 49%, transparent 50%, transparent),
+radial-gradient(circle at 0    50%, white 5%, silver 6%, silver 15%, white 16%, white 20%, silver 21%, silver 30%, white 31%, white 35%, silver 36%, silver 45%, white 46%, white 49%, transparent 50%, transparent);
+background-size:100px 50px;
+    }
+      #foo:focus {
+        outline: none;
+        border-color: aqua;
+        box-shadow: 0 0 30px #9ecaed;
+    }
+
+
+
+</style>
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Producer</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } ,id="foo"})
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Sex, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               
+               
+                @Html.DropDownList("Sex", new List<SelectListItem>
+
+                 {
+                    new SelectListItem{ Text="Male", Value = "Male" },
+                    new SelectListItem{ Text="Female", Value = "Female" },
+                     new SelectListItem{ Text="Others", Value = "Others" }
+                 }, new { style = "border - radius: 5px; background: white;width: 275px; padding: 5px;font - size: 16px; border: 20px;height: 34px; ", id = "foo" })
+
+
+
+
+                @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+                                        @*
+        @Html.DropDownListFor(model => model.Sex, new SelectList{ "Male", "Female", "Others" }, Model.Sex))
+
+                                    @Html.EditorFor(model => model.Sex, new { htmlAttributes = new { @class = "form-control" } })
+
+
+                      <div class="form-group">
+                          <label asp-for="Sex" class="col-md-2 control-label"></label>
+                          <div class="col-md-10">
+
+                              <select asp-for="Sex" class="form-control">
+                                  <option value="Male">Male</option>
+                                  <option value="Female">Female</option>
+                                  <option value="Other">Other</option>
+
+                              </select>
+                          </div>
+                      </div>*@
+
+
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DOB, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control" }, id = "foo" })
+                @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
+            </div>
+        </div>
+      
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Bio, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Bio, new { htmlAttributes = new { @class = "form-control" }, id = "foo" })
+                @Html.ValidationMessageFor(model => model.Bio, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

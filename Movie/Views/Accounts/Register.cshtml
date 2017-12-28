@@ -1,0 +1,214 @@
+﻿@model Movie.Models.Account
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Account</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.EmailID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EmailID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EmailID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @if (ViewBag.ErrorMsg != null)
+        {
+            <div>@ViewBag.ErrorMsg</div>
+        }
+        <div class="form-group">
+            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+
+        <div class="hide" style="display:none;">Wrong Password</div>
+
+        <div class="form-group">
+
+            <div class="col-md-10">
+                <input type="radio" name="IsAdmin" data-toggle="modal" data-target="#myModals">Register as an admin<br>
+
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Register" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+
+    @*<div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>*@
+
+
+    <div class="modal" id="myModals" role="dialog">
+        <div class="modal-dialog" style="left:0px; top:0px;">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:mediumturquoise">
+                    <button type="button" class="close" data-dismiss="modal" style="color:red">&times;</button>
+                    <h4 class="modal-title" style="background-color:aquamarine">Verify Admin</h4>
+                </div>
+                <div class="modal-body" style="background-color:azure">
+
+                    @*<div id="adm"></div>*@
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="form-horizontal">
+
+
+
+
+
+                        <div class="form-group">
+                            @Html.Label("Admin Password", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+
+                                <input type="password" id="adminpass" />
+                                <input type="button" value="Verify" class="btn btn-default" onclick="check()" data-dismiss="modal" />
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+}
+
+@*<script>
+        function admin() {
+            $.ajax({
+                url: "/Accounts/IsAdmin",
+                type: "GET",
+                datatype: "html",
+
+                success: function (data) {
+
+
+
+                    $("#adm").html(data);
+                },
+                error: function (result) {
+                    alert("Wrong Password");
+                }
+
+            });
+
+        }
+
+    </script>*@
+
+<script>
+    
+    function check() {
+        //var x = $('#' + '@(ViewBag.check)').val();
+
+        var pass = { "passs": $('#adminpass').val() };
+        $.ajax({
+            url: "/Accounts/IsAdmin",
+            type: "POST",
+            datatype: "Json",
+            data: pass,
+            success: function (data) {
+                //debugger;
+                //if (Session["Admin"] == 1)
+                // alert("true");
+                //else
+                //alert("false");
+                if (data.verify == false) {
+                    alert("Wrong Password");
+                    debugger;
+                  //  $(document).ready(function (data) {
+
+
+                        $('.hide').show(1000);
+                        // setTimeout(function () { MySleep(); }, 2000);
+
+
+                        // });
+                  //  });
+                    // alert("hi");
+                }
+
+
+            }
+        });
+
+    }
+
+    function MySleep() {
+        $('.hide').hide(1000);
+    }
+
+
+</script>

@@ -1,0 +1,434 @@
+﻿@model Movie.Models.Film
+
+@{
+    ViewBag.Title = "Edit";
+    string po = ViewBag.ImageToShow;
+}
+
+<style>
+    #pic {
+        height: 500px;
+        width: 500px;
+    }
+
+    #picdiv {
+        height: 500px;
+        width: 500px;
+    }
+
+
+
+    /*#picdiv .text {
+    position:relative;
+    bottom:250px;
+    left:190px;
+    visibility:hidden;
+    }
+
+    #picdiv:hover .text {
+    visibility:visible;
+    }*/
+
+
+    .text {
+        overflow: hidden;
+        position: absolute;
+        right: 100px;
+        bottom: 250px;
+        color: white;
+        visibility: hidden;
+        z-index: 999;
+    }
+
+        .text [type=file] {
+            cursor: inherit;
+            background-color: white;
+            display: block;
+            font-size: 999px;
+            filter: alpha(opacity=0);
+            min-height: 100%;
+            min-width: 100%;
+            opacity: 0;
+            position: absolute;
+            right: 100px;
+            bottom: 250px;
+            top: 0;
+            visibility: hidden;
+            z-index: 999;
+        }
+
+    #picdiv:hover .text {
+        visibility: visible;
+    }
+
+
+    #blah {
+        height: 500px;
+        width: 500px;
+        position: absolute;
+        left: 14px;
+        bottom: 0.5px;
+    }
+</style>
+
+
+
+@*WHAT'S WRONNNG?
+        @{
+            string[] AList; int i = 0;
+            foreach( var selected in ViewBag.AList)
+            {
+                AList[i] = selected.Name;
+                i = i + 1;
+
+            }
+    }*@
+</br></br></br>
+<h2>&nbsp;  &nbsp; &nbsp;         &nbsp;                       Edit</h2>
+
+
+<head>
+    <!--<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <!-- Bootstrap -->
+    @*<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="http://davidstutz.github.io/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script>*@
+
+    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet">
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap-multiselect.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+   
+
+
+
+
+
+
+
+
+    @*    <script src="~/Scripts/bootstrap-multiselect.js"></script>*@
+   
+
+
+
+
+
+
+
+    <script>
+
+
+        $(document).ready(function () {
+            @*var act = '@ViewBag.Alist';*@
+
+            @*$('#example-getting-started').val(["@AList"]);*@
+            var i = 0;
+            var a;
+            //  var jsonList = '@Html.Raw(ViewBag.AList)';
+
+            //var jsList = JSON.parse(jsonList);
+            //  for (var selected in @ViewBag.AList)
+            //  {
+            //a[i] = selected.ActorID;
+            //a[i] = selected;
+            //  i=i+1;
+
+            //   }
+
+            var myArray = [];
+            @foreach (var d in Model.Actors)
+            {
+                @:myArray.push("@d.ActorID");
+                                                }
+
+
+            $('#example-getting-started').val(myArray);
+            $('#example-getting-started').multiselect();
+
+        });
+
+
+        function AddPro() {
+            $.ajax({
+                url: "/Producers/PPcreate",
+                type: "GET",
+                datatype: "html",
+
+                success: function (data) {
+
+
+
+                    $("#pro").html(data);
+
+                },
+                error: function (result) {
+                    alert("Failed Producer");
+                }
+
+            });
+            //  location.reload();
+
+        }
+
+
+        function AddAct() {
+            $.ajax({
+                url: "/Actors/AAcreate",
+                type: "GET",
+                datatype: "html",
+
+                success: function (data) {
+
+
+
+                    $("#act").html(data);
+                },
+                error: function (result) {
+                    alert("Failed Actor");
+                }
+
+            });
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#imgInp").change(function () {
+            readURL(this);
+        });
+
+
+
+
+
+    </script>
+</head>
+
+<body style="background-color:	 #99ffff; padding-left:50px">
+
+
+
+
+
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @*@Html.ActionLink("Movie", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li style="font-size:large">@Html.ActionLink("Home", "Index", "Home")</li>
+                    @*<li style="font-size:large">@Html.ActionLink("Add", "Add", "Home")</li>
+                    <li style="font-size:large">@Html.ActionLink("Listing", "Listing", "Home")</li>*@
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-size:large">
+                            Add
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" style="background-color:azure">
+                            <li>@Html.ActionLink("Add an Actor", "Create", "Actors")</li>
+                            <li>@Html.ActionLink("Add a Producer", "Create", "Producers")</li>
+                            <li>@Html.ActionLink("Add a Film", "Create", "Films")</li>
+                        </ul>
+                    </li>
+
+
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="font-size:large">
+                            Listing
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" style="background-color:azure">
+                            <li>@Html.ActionLink("View a List Of Actors", "Index", "Actors")</li>
+                            <li>@Html.ActionLink("View a List Of Producers", "Index", "Producers")</li>
+                            <li>@Html.ActionLink("View a List Of Movies", "Index", "Films")</li>
+                        </ul>
+                    </li>
+
+
+
+
+
+
+
+                    <li style="font-size:large">@Html.ActionLink("Realtime", "Realtime", "Home")</li>
+                    <li style="font-size:large">@Html.ActionLink("About", "About", "Home")</li>
+                    <li style="font-size:large">@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+
+
+
+    @using (Html.BeginForm("Edit", "Films", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>&nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;       &nbsp;                                                                      Film</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.MovieID)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", style = "width: 250px; " } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Plot, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Plot, new { htmlAttributes = new { @class = "form-control", style = "width: 250px; " } })
+                    @Html.ValidationMessageFor(model => model.Plot, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Year_Of_Release, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Year_Of_Release, new { htmlAttributes = new { @class = "form-control", style = "width: 250px; " } })
+                    @Html.ValidationMessageFor(model => model.Year_Of_Release, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProducerID, "Producer", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ProducerID", null, htmlAttributes: new { @class = "form-control", style = "width: 250px; " })
+                    @Html.ValidationMessageFor(model => model.ProducerID, "", new { @class = "text-danger" })
+
+                    <br />
+                    <input type="button" id="id1" value="Add a new Producer" class="btn btn-default" onclick="AddPro()" />
+
+                </div>
+                <div id="pro">
+                </div>
+            </div>
+
+
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Actors, "Actor", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <select id="example-getting-started" multiple="multiple" name="ActorID" style="border-radius: 3px;background: white;width: 275px;padding: 5px; font-size: 16px;line-height: 5; border: 50px;height: 34px;">
+                        @foreach (var item in ViewBag.Actors)
+                        {
+                            <option id=@item.ActorID value="@item.ActorID">@item.Name</option>
+                        }
+
+
+                    </select>
+
+
+
+                    @*<p>The previously selected actors were:</p>
+                        @foreach (var selected in ViewBag.AList)
+                        {
+                        <p>>@selected.Name</p>
+                        }*@
+                    <br /><br />
+                    <input type="button" id="id6" value="Add a new Actor" class="btn btn-default" onclick="AddAct()" />
+
+
+
+                    @*@Html.ValidationMessageFor(model => model.Actors, "", new { @class = "text-danger" })*@
+                </div>
+                <div id="act"></div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Poster, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10" id="picdiv">
+
+
+                    @*THIS IS FOR BINARY. IMPORTANT!!!*@
+                    @Html.Raw("<img id=\"pic\" class=\"hover\" src=\"data:image/jpeg;base64," + ViewBag.ImageToShow + "\" />")
+
+                  
+
+                    @*<img id="pic" class="hover" src="~@po" alt="NO IMAGE" />*@
+
+                    <label class="text">
+                        UPLOAD A DIFFERENT POSTER
+                        <input type="file" name="post" id="imgInp" onchange="readURL(this);" />
+
+                    </label>
+
+                    <img id="blah" src="#" alt="NO IMAGE" />
+                   
+
+
+                </div>
+
+            </div>
+
+
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        <hr />
+
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+
+</body>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

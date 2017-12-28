@@ -1,0 +1,547 @@
+﻿@model IEnumerable<Movie.Models.Account>
+@{
+    ViewBag.Title = "Profile";
+    var idd = Session["ID"];
+}
+
+
+
+
+<style>
+    p { margin:1px !important; }
+    body {
+        background-color: aquamarine !important;
+
+
+    }
+
+    #heart {
+            background: transparent;
+            border: none !important;
+            color: #F78181;
+        }
+
+            #heart:active {
+                color: #B40404;
+            }
+
+            #heart:focus {
+                color: #B40404;
+            }
+</style>
+
+    <script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.confirm.min.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet">
+<link href="~/Content/bootstrap-theme.min.css" rel="stylesheet">
+<body>
+<h2>Profile</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Favourites)
+        </th>
+        <th></th>
+        <th>
+            <p>Watchlist</p>
+        </th>
+
+</tr>
+    <tr>
+        <td>
+            @ViewBag.Email
+        </td>
+        <td>
+            @ViewBag.Username
+        </td>
+        <td>
+            @ViewBag.Password
+         </td>
+            <td>
+            @foreach (var item in ViewBag.Movies)
+            {
+                    <p>@item</p>
+            }
+        </td>
+        <td>
+            @foreach (var item in ViewBag.favs)
+            {
+               
+                if (item.MovieID != null)
+                {
+                    <button onclick="Details(@item.MovieID)" style="background:transparent;
+                   border:none !important; color:steelblue" data-toggle="modal" data-target="#myModal">?
+                        @*-@item.MovieID*@
+                    </button>
+                    <button onclick="delmovie(@item.IDD)" class="delact1" style="background:transparent;border:none !important; color:steelblue"> &#10008;</button>
+
+
+
+
+                    <br />
+                }
+            }
+        </td>
+
+
+
+
+
+
+
+
+        <td>
+            @foreach (var itemm in ViewBag.favs)
+            {
+                //<p>@item.MovieID</p>
+                //string a = item.MovieID;
+                if (itemm.ImdbID != null)
+                {
+                <button onclick="DetailsIMDB('@itemm.ImdbID')" style="background:transparent;
+                   border:none !important; color:steelblue">Movie-@itemm.ImdbID</button>
+                <button onclick="delimdb(@itemm.IDD)" class="delact" style="background:transparent;border:none !important; color:steelblue"> &#10004;</button>
+
+                <button id = "heart" onclick = "Add('@itemm.ImdbID',@itemm.IDD)" class="delact"> &#10084;</button>
+
+                }
+
+
+
+                        <br />
+            }
+        </td>
+
+
+
+
+
+
+
+
+
+
+        <td>
+            
+            @*@Html.ActionLink("Edit Profile", "Edit", "Accounts", new { id = idd })*@
+
+            @Html.ActionLink("Edit Profile", "Edit", new { id = @idd }) |
+            <button onclick="delact(@idd)" class="delact" id="delact" style="background:transparent;
+                   border:none !important; color:steelblue">
+                Delete My Account
+            </button>
+
+            
+        </td>
+        </tr>
+ </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:aquamarine">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Movie Details</h4>
+                </div>
+                <div class="modal-body" style="background-color:azure">
+
+
+
+
+
+
+
+
+                    <div id="det"></div>
+
+
+
+
+
+
+
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Okay</button>
+                   
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    </body>
+
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.confirm.min.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet">
+<link href="~/Content/bootstrap-theme.min.css" rel="stylesheet">
+<script>
+
+    function delmovie(id) {
+       // alert("delmovie");
+        $(".delact1").confirm({
+            text: "Are you sure you want to delete that Movie from your favourites? <br/>",
+
+            title: "Delete Confirmation",
+            confirm: function (button) {
+                // delete();
+
+                $.ajax(
+               {
+                   url: "/Favourites/Delete",
+                   type: "GET",
+                   data: { "id": id },
+                   success: function (data) {
+                       location.reload();
+                   },
+                   error: function (result) {
+                       alert("Failed");
+                   }
+               })
+            },
+            cancel: function (button) {
+                // nothing to do
+            },
+            confirmButton: "Yes I am",
+            cancelButton: "No",
+            post: true,
+            confirmButtonClass: "btn-danger",
+            cancelButtonClass: "btn-default",
+            dialogClass: "modal-dialog modal-lg" // Bootstrap classes for large modal
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function addfav(data) {
+            
+        if(@Session["ID"]!=null)
+        {
+            var dat = {
+                "Id": @Session["ID"],
+                "MovieID": data
+            };
+            //alert(dat.Id);
+            // alert(dat.MovieID);
+
+            $.ajax({
+                // url: "/Actors/ACreatee",
+                url: "/Favourites/Create",
+
+                type: "POST",
+                datatype: "JSON",
+                data: dat,
+                success: function (response) {
+                    if (response != null && response.success) {
+                        alert("Successfully added movie to favourites!!");
+                    } else {
+                        alert("You've already added this movie to your favourites!");
+                    } 
+                },
+                failure: function (data) {
+                    alert("Unable to add to Favourites");
+
+                }
+            })
+            //alert("http://www.omdbapi.com/?i=" + data + "&plot=short&r=json");
+        }
+        else
+        {
+            alert("Kindly Login to set favourites!");
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function delimdb(id) {
+        //alert("delimdb");
+        $(".delact").confirm({
+            text: "Are you sure you want to delete that Movie from your watchlist? <br/>",
+
+            title: "Delete Confirmation",
+            confirm: function (button) {
+                // delete();
+
+                $.ajax(
+               {
+                   url: "/Favourites/Delete",
+                   type: "GET",
+                   data: { "id": id },
+                   success: function (data) {
+                      
+                       location.reload();
+                   },
+                   error: function (result) {
+                       alert("Failed");
+                   }
+               })
+            },
+            cancel: function (button) {
+                // nothing to do
+            },
+            confirmButton: "Yes I am",
+            cancelButton: "No",
+            post: true,
+            confirmButtonClass: "btn-danger",
+            cancelButtonClass: "btn-default",
+            dialogClass: "modal-dialog modal-lg" // Bootstrap classes for large modal
+        });
+    }
+
+
+
+
+
+            function delact(id)
+            {
+
+
+                $(".delact").confirm({
+                    text: "Are you sure you want to delete your account? <br/>",
+
+                    title: "Delete Confirmation",
+                    confirm: function (button)
+                    {
+                        // delete();
+
+                        $.ajax(
+                       {
+                           url: "/Accounts/Delete",
+                           type: "GET",
+                           data: { "id": id },
+                           success: function (data)
+                           {
+
+                             location.reload();
+                           },
+                           error: function (result)
+                           {
+                               alert("Failed");
+                           }
+                       })
+                    },
+                    cancel: function (button)
+                    {
+                        // nothing to do
+                    },
+                    confirmButton: "Yes I am",
+                    cancelButton: "No",
+                    post: true,
+                    confirmButtonClass: "btn-danger",
+                    cancelButtonClass: "btn-default",
+                    dialogClass: "modal-dialog modal-lg" // Bootstrap classes for large modal
+                });
+            }
+
+            function Details(id) {
+                $.ajax(
+                    {
+                        url: "/Films/Details",
+                        // type: "GET",
+                        datatype: "html",
+                        data: { "id": id },
+                        success: function (data) {
+                            $("#det").html(data);
+                        }
+                    }
+                    );
+            }
+            function DetailsIMDB(data)
+            {
+
+
+
+
+                $.ajax(
+           {
+               url: "http://www.omdbapi.com/?i=" + data + "&plot=short&r=json",
+               type: "GET",
+               // datatype: "html",
+               // data: { "id": id },
+               success: function (data)
+               {
+                   alert("Movie Title: " + data.Title + "\nYear: " + data.Year + "\n" + "Movie Runtime: " + data.Runtime + "\nGenre: " + data.Genre + "\n" + "Movie Director: " + data.Director +"\nActors: "+data.Actors+ "\nPlot: " + data.Plot + "\n" + "IMDB Rating: " + data.imdbRating);
+
+               }
+           })
+            }
+
+
+
+
+
+
+         
+            function Add(data,id)
+            {
+              
+                $.ajax(
+                   {
+                       url: "http://www.omdbapi.com/?i=" + data + "&plot=short&r=json",
+                       type: "GET",
+
+
+                       success: function (data){
+                           n = confirm(("Add this movie? \n" + data.Title + "\n" + data.Plot + "\n" + data.Year + "\n" +data.Actors));
+                           if (n) {
+                                                      
+
+                               var MovieData = {
+                                   "Name": data.Title,
+                                   "Plot": data.Plot,
+                                   "Year_Of_Release": data.Year,
+                                   "ProducerID": data.Director,
+                                   "Poster": data.Poster,
+                                   "Actors": data.Actors
+
+                               };
+                               addd(MovieData);
+
+
+
+
+                               $.ajax(
+                               {
+                                   url: "/Favourites/Delete",
+                                   type: "GET",
+                                   data: { "id": id },
+                                   success: function (data) {
+                                       location.reload();
+                                   },
+                                   error: function (result) {
+                                       alert("Failed");
+                                   }
+                               });
+
+                           }
+                       }
+                   });
+                
+
+
+
+
+            }
+
+
+            function addd(data)
+            {
+
+                var dat = data;
+
+                data.Plot=data.Plot.substring(0, 90);
+
+                var film = {
+                    "MovieID":0,
+                    "Name": data.Name,
+                    "Plot": data.Plot,
+                    "Year_Of_Release": data.Year_Of_Release,
+                    "Poster": null
+
+
+                };
+                var file = null;
+
+                $.ajax({
+
+
+                    url: "/Films/Create",
+
+                    type: "POST",
+                    datatype: "JSON",
+
+                    data: {film : film, post : file,Actors: data.Actors,Producer:data.ProducerID,Realtime:1},
+                    success: function (response) {
+                        if (response != null && response.success) {
+                            alert("Successfully added the movie!!");
+
+
+                            addfav(response.id);
+                            location.reload();
+
+                        } else {
+                            alert("You've already added this movie!");
+                        }
+                    },
+                    failure: function (data) {
+                        alert("Unable to add movie");
+
+                    }
+                })
+
+
+
+                
+
+            }
+
+    </script>
+    
+

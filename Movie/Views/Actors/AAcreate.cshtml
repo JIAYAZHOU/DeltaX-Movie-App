@@ -1,0 +1,182 @@
+﻿@model Movie.Models.Actor
+
+@{
+    ViewBag.Title = "Create";
+}
+@{
+    Layout = null;
+}
+<style>
+    #a1:focus {
+        outline: none;
+        border-color: aqua;
+        box-shadow: 0 0 30px #9ecaed;
+    }
+
+    #a2:focus {
+        outline: none;
+        border-color: aqua;
+        box-shadow: 0 0 30px #9ecaed;
+    }
+
+    #a3:focus {
+        outline: none;
+        border-color: aqua;
+        box-shadow: 0 0 30px #9ecaed;
+    }
+
+    #a4:focus {
+        outline: none;
+        border-color: aqua;
+        box-shadow: 0 0 30px #9ecaed;
+    }
+</style>
+
+
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">
+</script>
+<script>
+
+
+
+
+
+    function AddAct2() {
+
+
+        //$("#id2").toggle(function () {
+        //    $(this).text("Create");
+        //}, function () {
+        //    $(this).text("Done");
+        //});
+
+        //$(document).ready(function () {
+        //    $("#id2").click(function () {
+        //        $("#id2").text("Done");
+        //    });
+        //})
+
+
+        //$('.id2').click(function () {
+        //    if ($(this).text() === 'Create') {
+        //        $(this).text('Done');
+        //    }
+        //    else {
+        //        $(this).text('Create');
+        //    }
+        //});
+
+        //$(document).ready(function () {
+        //    $("#id2").click(function () {
+        //        // $("#old").toggle('show');
+        //        $("#whole").hide();
+        //    });
+        //});
+        var ActorData = {
+            "Name": $('#a1').val(),
+            "Sex": $('#a2').val(),
+            "DOB": $('#a3').val(),
+            "Bio": $('#a4').val()
+
+        };
+
+
+        $.ajax({
+            url: "/Actors/ACreatee",
+            type: "POST",
+            datatype: "html",
+            data: ActorData,
+            success: function (data) {
+
+                location.reload();
+
+               // $("#act1").html(data);
+            },
+            error: function (result) {
+                alert("Failed");
+            }
+
+        });
+
+
+
+
+
+
+    }
+</script>
+
+
+
+<div class="form-horizontal">
+    <h4>Create new Actor</h4>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", style = "border - radius: 5px; background: white;width: 175px; padding: 5px;font - size: 16px; border: 20px;height: 26px; ", id = "a1" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Sex, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Sex", new List<SelectListItem>
+
+                 {
+                    new SelectListItem{ Text="Male", Value = "Male" },
+                    new SelectListItem{ Text="Female", Value = "Female" },
+                     new SelectListItem{ Text="Others", Value = "Others" }
+                 }, new { id = "a2", style = "border - radius: 5px; background: white;width: 175px; padding: 5px;font - size: 16px; border: 20px;height: 26px; " })
+
+
+
+
+            @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DOB, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control", style = "border - radius: 5px; background: white;width: 175px; padding: 5px;font - size: 16px; border: 20px;height: 26px; ", id = "a3" } })
+            @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Bio, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Bio, new { htmlAttributes = new { @class = "form-control", style = "border - radius: 5px; background: white;width: 175px; padding: 5px;font - size: 16px; border: 20px;height: 26px; ", id = "a4" } })
+            @Html.ValidationMessageFor(model => model.Bio, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @*<input type="submit" value="Create" class="btn btn-default" />*@
+            <input type="button" id="id2" value="Create Actor" class="btn btn-default" onclick="AddAct2()" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <div id="act1"></div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
